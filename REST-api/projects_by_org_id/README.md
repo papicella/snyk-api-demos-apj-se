@@ -25,3 +25,5 @@ List all projects for a given ORG using type = sast
 ```
 python3 projects_by_org_id-SAST-ONLY.py --orgId <Org Id>
 ```
+
+
