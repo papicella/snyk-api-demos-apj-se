@@ -26,7 +26,8 @@ args = parse_command_line_args()
 org_id = args.orgId
 
 payload = {'version': '2023-09-14',
-           'limit': '100'}
+           'limit': '100',
+           'types': 'sast'}
 
 my_headers = {'Authorization': 'token ' + snyk_token, 'Accept': 'application/vnd.api+json'}
 response = requests.get(f'https://api.snyk.io/rest/orgs/{org_id}/projects', headers=my_headers, params=payload)
