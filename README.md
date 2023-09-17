@@ -3,5 +3,4 @@
 To get started navigate to either **v1-api** or **REST-api** folders and then select the script folder you would like to run and view it's run information on how to run it
 
 <hr />
-
-Created by the Snyk APJ SE Team
+Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
