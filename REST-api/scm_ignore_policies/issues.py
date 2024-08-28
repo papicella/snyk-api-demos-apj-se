@@ -15,7 +15,8 @@ def get_unified_issues(orgid,project_id,snyk_token,ignored):
     params = {
         "ignored": ignored,
         "version": "2024-08-22",
-        "status": "open"
+        "status": "open",
+        "limit": 100
     }
 
     if project_id:
