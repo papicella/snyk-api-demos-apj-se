@@ -27,6 +27,7 @@ SNYK_TOKEN = args.snykToken
 ORG_ID = args.orgId
 PROJECT_ID = args.projId
 EXPIRY_DAYS = 90
+ALLOWED_SEVERITIES = ["low", "medium", "high"]
 
 
 def set_ignore(project_id, issue_id, expiry_date):
@@ -53,9 +54,11 @@ def main():
     for issue in issues:
         attributes = issue["attributes"]
         issue_id = attributes["problems"][0]["id"]
+        severity = attributes['effective_severity_level']
         rels = issue["relationships"]
         project_id = rels["scan_item"]["data"]["id"]
-        set_ignore(project_id,issue_id,exp_date)
+        if severity in ALLOWED_SEVERITIES:
+            set_ignore(project_id,issue_id,exp_date)
 
 if __name__ == "__main__":
     main()
