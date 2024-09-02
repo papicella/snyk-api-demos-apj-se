@@ -94,7 +94,7 @@ def poll_import_status(import_status_url):
             return response.json()["logs"][0]['projects']
         elif status == "failed":
             raise Exception("Import failed")
-        time.sleep(10)
+        time.sleep(1)
 
 def check_vulnerabilities(issues):
     issue_count = 0
