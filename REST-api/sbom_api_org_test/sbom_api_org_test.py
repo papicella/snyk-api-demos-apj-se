@@ -18,6 +18,9 @@ def parse_command_line_args():
     parser.add_argument(
         "--sbomFormat", type=str, help="Your SBOM format", required=True
     )
+    parser.add_argument(
+        "--breakOnBuild", type=str, help="Do you want to exit with code (1), option put Y or N", required=False
+    )
 
     return parser.parse_args()
 
@@ -26,6 +29,7 @@ org_id = args.orgId
 snyk_token = args.snykToken
 sbom_file = args.sbomFile
 sbom_format = args.sbomFormat
+break_on_build = args.breakOnBuild
 
 
 # Open the text file in read mode
@@ -71,14 +75,24 @@ else:
                 if status_response.status_code == 200:
                     status_json = status_response.json()
                     # Check if the scan is finished
-                    status = status_json.get("data", {}).get("attributes", {}).get("status")
+                    attribs = status_json.get("data", {}).get("attributes", {})
+                    status = attribs.get("status")
                     if status is None or status == "finished":
                         print("Scan finished.")
                         print(colored(json.dumps(status_json, indent=2), 'green'))
+
+                        if break_on_build == "Y":
+                            vulns = attribs.get("test_summary",{}).get("vulnerabilities_by_severity")
+                            critical = vulns.get("critical")
+                            high = vulns.get("high")
+                            if(critical>0 or high>0):
+                                print("Critical or High Vulnerabilities found")
+                                exit(1)
+
                         break
                     else:
                         print("Scan not finished yet. Waiting...")
-                        time.sleep(1)  # Wait for 10 seconds before checking again
+                        time.sleep(1)  # Wait for 1 seconds before checking again
                 else:
                     print(f"Error checking status: {status_response.status_code} - {status_response.text}")
                     break
