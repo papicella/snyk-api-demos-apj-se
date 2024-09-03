@@ -4,4 +4,5 @@ To get started navigate to either **v1-api** or **REST-api** folders and then se
 
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer APJ at Snyk
+<br />
 Lawrence Crowther [loz at snyk.io] is Head of Solutions Engineering APJ at Snyk
