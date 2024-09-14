@@ -1,6 +1,6 @@
 # projects_by_org_id
 
-Python script to view project targets for a gievn ORG
+Python script to view project targets for a given ORG
 
 ## Prerequisite
 
