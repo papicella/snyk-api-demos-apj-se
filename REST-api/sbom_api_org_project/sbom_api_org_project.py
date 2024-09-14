@@ -21,9 +21,9 @@ args = parse_command_line_args()
 org_id = args.orgId
 project_id = args.projectId
 
-payload = {'version': '2022-04-06~experimental',
-           'format': 'cyclonedx+json'}
-my_headers = {'Authorization': 'token ' + snyk_token, 'Accept': 'application/vnd.api+json'}
+payload = {'version': '2024-09-04',
+           'format': 'cyclonedx1.6+json'}
+my_headers = {'Authorization': 'Token ' + snyk_token, 'Accept': 'application/json'}
 
 print(f'https://api.snyk.io/rest/orgs/{org_id}/projects/{project_id}/sbom')
 

@@ -1,3 +1,6 @@
 requests==2.28.1
 termcolor==2.0.1
 pysnyk==0.9.4
+argparse
+requests
+datetime

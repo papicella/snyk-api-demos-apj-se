@@ -2,6 +2,7 @@ import argparse
 
 import requests
 import json
+from urllib.parse import urlencode
 
 from utils import get_default_token_path, get_token
 from termcolor import colored
@@ -25,9 +26,29 @@ snyk_token = get_token(snyk_token_path)
 args = parse_command_line_args()
 org_id = args.orgId
 
-payload = {'version': '2024-09-04'}
+payload = {'version': '2024-09-04',
+           'limit': '100'}
+
+SNYK_REST_API_URL = 'https://api.snyk.io'
 
 my_headers = {'Authorization': 'token ' + snyk_token, 'Accept': 'application/vnd.api+json'}
-response = requests.get(f'https://api.snyk.io/rest/orgs/{org_id}/issues', headers=my_headers, params=payload)
-pretty_json = json.loads(response.text)
-print(colored(json.dumps(response.json(), indent=2), 'blue'))
+url = f"{SNYK_REST_API_URL}/rest/orgs/{org_id}/issues"
+all_issues = []
+url = f"{url}?{urlencode(payload)}"
+count = 1;
+
+while url:
+    print(f'Getting page {count} of 100 results')
+    response = requests.get(url, headers=my_headers)
+    data = response.json()
+    all_issues.extend(data['data'])
+    next = data['links'].get('next')
+    if next is None:
+        break
+
+    count += 1
+    url = SNYK_REST_API_URL + next
+
+print(f'\nAll issues count {len(all_issues)}')
+
+print(colored(json.dumps(all_issues, indent=2), 'blue'))
