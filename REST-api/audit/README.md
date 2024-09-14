@@ -1,4 +1,4 @@
-# sbom_api_org_project
+# audit_project
 
 Python script to retrieve Snyk Audit Logs
 
