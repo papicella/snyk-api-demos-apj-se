@@ -25,7 +25,7 @@ snyk_token = get_token(snyk_token_path)
 args = parse_command_line_args()
 org_id = args.orgId
 
-payload = {'version': '2023-04-28~experimental'}
+payload = {'version': '2024-09-04'}
 
 my_headers = {'Authorization': 'token ' + snyk_token, 'Accept': 'application/vnd.api+json'}
 response = requests.get(f'https://api.snyk.io/rest/orgs/{org_id}/issues', headers=my_headers, params=payload)
