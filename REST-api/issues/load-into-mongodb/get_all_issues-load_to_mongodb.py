@@ -54,9 +54,9 @@ def insert_into_mongodb(issues, mongodb_connect_string, db_name, collection_name
     client = MongoClient(mongodb_connect_string)
     db = client[db_name]
     collection = db[collection_name]
+
     if issues:
-        for issue in issues:
-            collection.insert_one(issue)  # Insert each issue individually
+        collection.insert_many(issues)
         print(f"Inserted {len(issues)} issues into MongoDB.")
     else:
         print("No issues to insert.")
