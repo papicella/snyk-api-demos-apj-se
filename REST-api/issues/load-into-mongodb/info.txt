@@ -1,0 +1,4 @@
+To fix local SSL issues:
+
+ln -s /etc/ssl/* /Library/Frameworks/Python.framework/Versions/Current/etc/openssl/
+

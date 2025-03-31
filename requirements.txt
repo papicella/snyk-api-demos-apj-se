@@ -4,3 +4,5 @@ pysnyk==0.9.4
 argparse
 requests
 datetime
+pymongo
+certifi
