@@ -19,7 +19,6 @@ Arguments
 --projId PROJID (optional): The project ID in Snyk.
 ```
 
-
 ## Description
 This script performs the following steps:
 
