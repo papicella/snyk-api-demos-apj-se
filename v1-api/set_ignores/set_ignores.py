@@ -8,7 +8,7 @@ import importlib.util
 sys.path.append('../../REST-api')
 
 # Dynamically import the module
-spec = importlib.util.find_spec('issues.issues_by_proj_id')
+spec = importlib.util.find_spec('issues_by_proj_id.issues_by_proj_id')
 issues_by_proj_id = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(issues_by_proj_id)
 
