@@ -1,4 +1,4 @@
-# scm_ignore_policies
+# break the build by servirty or risk score
 
 Python script to retrieve the Ignores on issues for SCM targets or projects.
 
@@ -17,6 +17,7 @@ Arguments
 --scmRepoBranch SCMREPOBRANCH: The branch name of the SCM repository.
 --snykIntId SNYKINTID: The Snyk integration ID.
 --projId PROJID (optional): The project ID in Snyk.
+--riskScoreThreshold RISKSCORETHRESHOLD (optional): Break the build by risk score instead of severity on the given threshold.
 ```
 
 ## Description

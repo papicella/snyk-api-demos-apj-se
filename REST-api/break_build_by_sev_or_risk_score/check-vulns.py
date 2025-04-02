@@ -1,7 +1,12 @@
 # check-vulns.py
 import sys
+import os
+
 import requests
-from issues import get_unified_issues
+# Add the directory containing REST-api to the system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from issues.issues_by_proj_id import get_unified_issues
 from import_utils import get_projects
 from arg_parser import parse_command_line_args
 

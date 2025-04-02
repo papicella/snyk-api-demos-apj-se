@@ -1,9 +1,19 @@
 import datetime
 import requests
 import argparse
+import sys
+import importlib.util
 
-from issues import get_unified_issues
+# Add the path to the REST-api directory
+sys.path.append('../../REST-api')
 
+# Dynamically import the module
+spec = importlib.util.find_spec('issues.issues_by_proj_id')
+issues_by_proj_id = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(issues_by_proj_id)
+
+# Now you can use get_unified_issues from the dynamically imported module
+get_unified_issues = issues_by_proj_id.get_unified_issues
 
 def parse_command_line_args():
     parser = argparse.ArgumentParser(description="Snyk API Examples")
@@ -22,7 +32,6 @@ def parse_command_line_args():
 args = parse_command_line_args()
 
 SNYK_API_URL = "https://snyk.io/api/v1"
-SNYK_REST_API_URL = "https://api.snyk.io"
 SNYK_TOKEN = args.snykToken
 ORG_ID = args.orgId
 PROJECT_ID = args.projId
