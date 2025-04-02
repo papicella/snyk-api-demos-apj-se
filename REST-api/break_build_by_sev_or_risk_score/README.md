@@ -1,4 +1,4 @@
-# break the build by servirty or risk score
+# break the build by severity or risk score
 
 Python script to retrieve the Ignores on issues for SCM targets or projects.
 
