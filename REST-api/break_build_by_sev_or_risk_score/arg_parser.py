@@ -22,6 +22,9 @@ def parse_command_line_args():
         "--projId", type=str, help="Snyk Project ID", required=False
     )
     parser.add_argument(
+        "--severityThreshold", type=str, help="Severity threshold (low, medium, high, critical)", required=False
+    )
+    parser.add_argument(
         "--riskScoreThreshold", type=int, help="Break the build by risk score instead of severity on the given threashold", required=False
     )
 

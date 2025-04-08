@@ -3,10 +3,8 @@ import sys
 import os
 
 import requests
-# Add the directory containing REST-api to the system path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from issues_by_proj_id.issues_by_proj_id import get_unified_issues
+from issues_by_proj_id import get_unified_issues
 from import_utils import get_projects
 from arg_parser import parse_command_line_args
 
@@ -14,6 +12,8 @@ args = parse_command_line_args()
 
 SNYK_ISSUES_URL_BASE = "https://app.snyk.io/org"
 SNYK_ISSUE_COUNT = 0
+
+SEVERITY_LEVELS = ["low", "medium", "high", "critical"]
 
 
 def get_org_slug():
@@ -32,20 +32,25 @@ def get_org_slug():
 
 
 def check_vulnerabilities(issues):
-            issue_count = 0
+    issue_count = 0
+    for issue in issues:
+        attrs = issue['attributes']
+        if args.riskScoreThreshold:
+            risk_score = float(attrs['risk']['score']['value'])
+            if risk_score >= args.riskScoreThreshold:
+                issue_count += 1
+        else:
+            if not args.severityThreshold:
+                severity_threshold = "high" ## default to high
+            else:
+                severity_threshold = args.severityThreshold.lower()
+
+            threshold_index = SEVERITY_LEVELS.index(severity_threshold)
             for issue in issues:
-                attrs = issue['attributes']
-                if args.riskScoreThreshold:
-                    risk_score = float(attrs['risk']['score']['value'])
-                    if risk_score >= args.riskScoreThreshold:
-                        issue_count += 1
-                else:
-                    severity = attrs['effective_severity_level']
-                    if severity in ["high", "critical"]:
-                        issue_count += 1
-            return issue_count
-
-
+                severity = issue['attributes']['effective_severity_level']
+                if SEVERITY_LEVELS.index(severity) >= threshold_index:
+                    issue_count += 1
+    return issue_count
 
 def main():
     global SNYK_ISSUE_COUNT

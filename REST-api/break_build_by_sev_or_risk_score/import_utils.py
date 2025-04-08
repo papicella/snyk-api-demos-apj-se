@@ -41,8 +41,11 @@ def poll_import_status(import_status_url, snyk_token):
         time.sleep(1)
 
 def get_projects(args):
+
     #first trigger the new import
     status_url = call_import_api(args.orgId, args.snykIntId, args.snykToken, args.scmRepo, args.scmRepoBranch)
+
     #now we have to wait until the inmport job is finsihed
     projects = poll_import_status(status_url, args.snykToken)
+
     return projects
