@@ -7,13 +7,12 @@ import requests
 from issues_by_proj_id import get_unified_issues
 from import_utils import get_projects
 from arg_parser import parse_command_line_args
+from arg_parser import SEVERITY_LEVELS
 
 args = parse_command_line_args()
 
 SNYK_ISSUES_URL_BASE = "https://app.snyk.io/org"
 SNYK_ISSUE_COUNT = 0
-
-SEVERITY_LEVELS = ["low", "medium", "high", "critical"]
 
 
 def get_org_slug():
