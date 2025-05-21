@@ -30,10 +30,13 @@ def get_org_slug():
     return org_slug
 
 
-def check_vulnerabilities(issues):
+def check_vulnerabilities(issues,org_slug,project_id):
     issue_count = 0
     for issue in issues:
         attrs = issue['attributes']
+        #print issue url
+        issue_url = get_issue_url(attrs,org_slug,project_id)
+        print(issue_url)
         if args.riskScoreThreshold:
             risk_score = float(attrs['risk']['score']['value'])
             if risk_score >= args.riskScoreThreshold:
@@ -54,11 +57,13 @@ def check_vulnerabilities(issues):
 def main():
     global SNYK_ISSUE_COUNT
 
+    org_slug = get_org_slug()
+
     if args.projId:  # only do this if PROJECT_ID is present (i.e testing etc)
         issues = get_unified_issues(args.orgId, args.projId, args.snykToken, "false")
-        issue_count = check_vulnerabilities(issues)
+        issue_count = check_vulnerabilities(issues,org_slug, args.projId)
         if issue_count > 0:
-            print("Issues found - goto " + SNYK_ISSUES_URL_BASE + "/" + get_org_slug() + "/project/" + args.projId)
+            print("Issues found - goto " + SNYK_ISSUES_URL_BASE + "/" + org_slug + "/project/" + args.projId)
             SNYK_ISSUE_COUNT += issue_count
             sys.exit(1)
     else:
@@ -69,14 +74,18 @@ def main():
             project_id = project["projectId"]
             issues = get_unified_issues(args.orgId, project_id, args.snykToken, "false")
 
-            issue_count = check_vulnerabilities(issues)
+            issue_count = check_vulnerabilities(issues,org_slug, project_id)
 
             if issue_count > 0:
-                print("Issues found - goto " + SNYK_ISSUES_URL_BASE + "/" + get_org_slug() + "/project/" + project_id)
+                print("Issues found - goto " + SNYK_ISSUES_URL_BASE + "/" + org_slug + "/project/" + project_id)
                 SNYK_ISSUE_COUNT += issue_count
     if SNYK_ISSUE_COUNT > 0:
         sys.exit(1)
 
+
+def get_issue_url(issue,org_slug, project_id):
+    #example URL https://app.snyk.io/org/lawrence_crowther_hmv/project/9d4b653f-55e7-4cd5-8aa9-c4158c3c34ec#issue-4f3d9fb2-6cd5-4562-bb4a-4de1ece88743
+    return f"{SNYK_ISSUES_URL_BASE}/{org_slug}/project/{project_id}#issue-{issue['key']}"
 
 if __name__ == "__main__":
     main()
